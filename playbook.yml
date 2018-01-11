@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  become: true
+  vars:
+    php_timezone: Europe/Berlin
+    nginx_vhosts:
+      - listen: "80"
+        server_name: "localhost"
+        root: "/home/robert/web/www"
+        index: "index.php index.html index.htm"
+        state: "present"
+        template: "{{ nginx_vhost_template }}"
+        filename: "localhost.conf"
+        extra_parameters: |
+          location ~ \.php$ {
+          fastcgi_split_path_info ^(.+\.php)(/.+)$;
+          fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+          fastcgi_index index.php;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          include fastcgi_params;
+          }
+  roles:
+    - geerlingguy.nginx
+    - itcraftsmanpl.php7  
+  tasks:
+    - shell: echo "Hallo !!!!"
