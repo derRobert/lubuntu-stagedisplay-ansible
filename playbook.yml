@@ -7,6 +7,17 @@
     php_upload_max_filesize: "768M"
     php_post_max_size: "768M"
     php_max_execution_time: 500
+    php_packages:
+      - php7.1-common
+      - php7.1-cli
+      - php7.1-intl
+      - php7.1-curl
+      - php7.1-fpm
+      - php7.1-gd
+      - php7.1-mbstring
+      - php7.1-mcrypt        
+      - php7.1-pdo-sqlite
+
     nginx_vhosts:
       - listen: "80"
         server_name: "localhost"
