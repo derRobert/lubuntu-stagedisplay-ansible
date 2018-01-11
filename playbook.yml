@@ -2,11 +2,15 @@
 - hosts: localhost
   become: true
   vars:
+    system_user: robert      
     php_timezone: Europe/Berlin
+    php_upload_max_filesize: "768M"
+    php_post_max_size: "768M"
+    php_max_execution_time: 500
     nginx_vhosts:
       - listen: "80"
         server_name: "localhost"
-        root: "/home/robert/web/www"
+        root: "/home/{{ system_user }}/web/www"
         index: "index.php index.html index.htm"
         state: "present"
         template: "{{ nginx_vhost_template }}"
@@ -23,4 +27,20 @@
     - geerlingguy.nginx
     - itcraftsmanpl.php7  
   tasks:
-    - shell: echo "Hallo !!!!"
+    - name: web folder exists
+      file: 
+        path: "/home/{{ system_user }}/web"
+        state: directory
+        owner: "{{ system_user }}"
+        group: "{{ system_user }}"
+        mode: "755"
+    - name: web folder exists
+      file:
+        path: "/home/{{ system_user }}/web/www"
+        state: directory
+        owner: "{{ system_user }}"
+        group: "{{ system_user }}"
+        mode: "755"
+
+
+
